@@ -2,13 +2,10 @@ import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
 import { message } from 'antd';
-
 const Register = () => {
   const [messageApi, contextHolder] = message.useMessage();
-
   const handleRegister = async (e) => {
     e.preventDefault();
-
     const form = e.target;
     const data = {
       userName: form.username.value.trim(),
@@ -74,10 +71,10 @@ const Register = () => {
               Create Account
             </button>
           </form>
-
           <div className="mt-6 text-center">
             Already have an account? <Link to="/login" className="text-[#DB4444] font-medium hover:underline">Log in</Link>
           </div>
+
         </div>
       </div>
     </>

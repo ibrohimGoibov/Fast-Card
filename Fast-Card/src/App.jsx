@@ -1,14 +1,17 @@
-import React from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Layout from './layout/layout'
-import Home from './components/home/home'
-import Contact from './components/contact/contact'
-import Register from './components/register/register'
-import Story from './components/story/story'
-import Login from './components/login/login'
-import './App.css'
-import Error from './components/error/error'
-import Product from './components/product/product'
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Layout from './layout/layout';
+import Home from './components/home/home';
+import Contact from './components/contact/contact';
+import Register from './components/register/register';
+import Story from './components/story/story';
+import Login from './components/login/login';
+import Error from './components/error/error';
+import Product from './components/product/product';
+import { Counter } from './feauter/counter/Counter';
+import Sale from './components/product/sale';
+import './App.css';
+
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -17,41 +20,45 @@ const App = () => {
       children: [
         {
           index: true,
-          element: <Home />
+          element: <Home />,
         },
         {
           path: 'contact',
-          element: <Contact />
+          element: <Contact />,
         },
         {
           path: 'register',
-          element: <Register />
+          element: <Register />,
         },
         {
           path: 'story',
-          element: <Story />
+          element: <Story />,
         },
         {
           path: 'login',
-          element: <Login />
-        },
-        {
-          path: 'error',
-          element: <Error />
+          element: <Login />,
         },
         {
           path: 'product',
-          element: <Product />
-        }
+          element: <Product />,
+        },
+        {
+          path: 'sale/:id',              
+          element: <Sale />,
+        },
+        {
+          path: 'counter',
+          element: <Counter />,
+        },
+        {
+          path: '*',                  
+          element: <Error />,
+        },
+      ],
+    },
+  ]);
 
-      ]
-    }
-  ])
-  return (
-    <div>
-      <RouterProvider router={router} />
-    </div>
-  )
-}
+  return <RouterProvider router={router} />;
+};
 
-export default App
+export default App;
