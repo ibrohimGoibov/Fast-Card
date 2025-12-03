@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Carousel } from 'antd';
+import { Link } from 'react-router-dom';
 import img4 from '../../assets/Frame 560.png'
 import img5 from '../../assets/g92-2-500x500 1.png'
 import img6 from '../../assets/Category-CellPhone.png'
@@ -9,32 +10,70 @@ import img10 from '../../assets/attractive-woman-wearing-hat-posing-black-backgr
 import img8 from '../../assets/Frame 694.png'
 import img11 from '../../assets/Frame 707.png'
 import img12 from '../../assets/Frame 706.png'
-import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import { Space, Button } from 'antd'
 const Home = () => {
+  const [data, setData] = useState([]);
+  const [datas, setDatas] = useState([]);
+  const [category, setCategory] = useState([])
+    const [products, setProducts] = useState([]);  
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);        
+
+  // Получаем продукты
+  async function getProducts() {
+    try {
+      const { data } = await axios.get('http://37.27.29.18:8002/Product/get-products', {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
+      setProducts(data.data.products || []);
+      console.log("Products:", data.data.products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  }
+
+  // Получаем категории
+  async function getCategories() {
+      try {
+        const { data } = await axios.get('http://37.27.29.18:8002/Category/get-categories');
+        setCategories(data.data || []);
+        console.log("Categories:", data.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+  }
+
+  // Получаем бренды
+  async function getBrands() {
+    try {
+      const { data } = await axios.get('http://37.27.29.18:8002/Brand/get-brands', {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
+      setBrands(data.data || []);
+      console.log("Brands:", data.data);
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+    }
+  }
+
+  useEffect(() => {
+    getProducts();
+    getCategories();
+    getBrands();
+  }, []);
   return (
     <div className='body'>
       <div className="mt-[50px] flex flex-col lg:flex-row items-center justify-center gap-[30px] px-4 lg:px-0">
         <div className="num1 w-full lg:w-auto">
-          <div className="flex text-[18px] gap-[40px] justify-between lg:justify-start">
-            <p>Woman’s Fashion</p>
-            <p><svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M4.95 6.364L0 1.414L1.414 0L7.778 6.364L1.414 12.728L0 11.314L4.95 6.364Z" fill="black"/>
-</svg></p>
-          </div>
-          <div className="flex mt-[10px] text-[18px] gap-[60px] justify-between lg:justify-start">
-            <p>Men’s Fashion</p>
-            <p><svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M4.95 6.364L0 1.414L1.414 0L7.778 6.364L1.414 12.728L0 11.314L4.95 6.364Z" fill="black"/>
-</svg></p>
-          </div>
-          <p className='mt-[10px] text-[16px]'>Electronics</p>
-          <p className='mt-[10px] text-[16px]'>Home & Lifestyle</p>
-          <p className='mt-[10px] text-[16px]'>Medicine</p>
-          <p className='mt-[10px] text-[16px]'>Sports & Outdoor</p>
-          <p className='mt-[10px] text-[16px]'>Baby’s & Toys</p>
-          <p className='mt-[10px] text-[16px]'>Groceries & Pets</p>
-          <p className='mt-[10px] text-[16px]'>Health & Beauty</p>
+          <div className='categ'>
+          <h1 style={{fontSize:"30px"}}>Categories:</h1>
+            {brands.map((brand) => (
+              <div key={brand.id}>
+                <p style={{fontWeight:"400"}}>{brand.brandName}</p>
+              </div>
+            ))}
+        </div>
         </div>
 
         <Carousel className='h-[344px] rounded-[20px] lg:w-[892px] w-[400px]' autoplay>
@@ -89,38 +128,44 @@ const Home = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-[20px] px-4 lg:px-20 mt-[20px] justify-items-center">
         
-        <div className="num1">
-          <div className="bg-[#F5F5F5] rounded-[4px] p-[40px] w-[270px] sm:w-[300px]">
-            <div className="flex items-start justify-between ">
-              <button className='bg-[#DB4444] ml-[-20px] mt-[-20px] text-white w-[55px] h-[26px] rounded-[4px]'>-40%</button>
-              <img src={img5} alt="" />
-              <div className="non ml-[20px] mt-[-20px]">
-                <svg className='num11' width="34" height="34" viewBox="0 0 34 34" fill="none">
-                  <circle cx="17" cy="17" r="17" fill="white"/>
-                  <path d="M13 10C10.7912 10 9 11.7396 9 13.8859C9 15.6185 9.7 19.7305 16.5904 23.8873C16.7138 23.961 16.8555 24 17 24C17.1445 24 17.2862 23.961 17.4096 23.8873C24.3 19.7305 25 15.6185 25 13.8859C25 11.7396 23.2088 10 21 10C18.7912 10 17 12.3551 17 12.3551C17 12.3551 15.2088 10 13 10Z" stroke="black" strokeWidth="1.5"/>
-                </svg>
-                <svg className='mt-[10px] num11 num123' width="34" height="34" viewBox="0 0 34 34" fill="none">
-                  <circle cx="17" cy="17" r="17" fill="white"/>
-                  <path d="M26.257 15.962C26.731 16.582 26.731 17.419 26.257 18.038C24.764 19.987 21.182 24 17 24C12.818 24 9.23601 19.987 7.74301 18.038C7.51239 17.7411 7.38721 17.3759 7.38721 17C7.38721 16.6241 7.51239 16.2589 7.74301 15.962C9.23601 14.013 12.818 10 17 10C21.182 10 24.764 14.013 26.257 15.962V15.962Z" stroke="black" strokeWidth="1.5"/>
-                  <path d="M17 20C18.6569 20 20 18.6569 20 17C20 15.3431 18.6569 14 17 14C15.3431 14 14 15.3431 14 17C14 18.6569 15.3431 20 17 20Z" stroke="black" strokeWidth="1.5"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div className="txt mt-4">
-            <h1 className='font-medium text-[18px]'>HAVIT HV-G92 Gamepad</h1>
-            <div className="flex items-center gap-[10px]">
-              <p className='text-[#DB4444]'>$120</p>
-              <s className='text-[grey]'>$160</s>
-            </div>
-            <div className="flex items-center gap-[5px] mt-[10px]">
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-                  <path d="M13.9459 6.83189C15.0166 6.022 14.4439 4.31533 13.1013 4.31533H10.6722C10.0583 4.31533 9.51596 3.91536 9.33463 3.32884L8.61049 0.98653C8.20385 -0.328787 6.34205 -0.328787 5.93541 0.98653L5.21126 3.32884C5.02994 3.91536 4.48764 4.31533 3.87373 4.31533H1.40256C0.064368 4.31533 -0.511132 6.01289 0.551167 6.82669L2.66764 8.44808C3.1318 8.80365 3.32609 9.41024 3.15491 9.96932L2.38591 12.4809C1.98711 13.7834 3.49462 14.8305 4.57596 14.0021L6.42156 12.5882C6.92392 12.2034 7.62198 12.2034 8.12434 12.5882L9.95364 13.9896C11.0365 14.8192 12.5455 13.768 12.1426 12.4648L11.3629 9.94286C11.1889 9.37991 11.3859 8.76824 11.8559 8.41278L13.9459 6.83189Z" fill="#FFAD33"/>
-                </svg>
-              <p className='text-[grey]'>(88)</p>
-            </div>
-          </div>
+         {products.map((e) => (
+    <div key={e.id} className="product-card ">
+      <div className="product-image">
+        <img
+          src={`http://37.27.29.18:8002/images/${e.image}`}
+          alt={e.productName}
+        />
+      </div>
+      <div className="product-info">
+        <h3 className="product-name">{e.productName}</h3>
+        <div className="price-row">
+            <>
+              <span className="discount-price">{e.discountPrice}%</span>
+              <Space style={{paddingRight:"45px"}}>
+              <span className="original-price1">${e.discountPrice}</span>
+              <span className="original-price">${e.price}</span>
+              </Space>
+            </>
         </div>
+        <Space className="card-actions" orientation="vertical" size={10}>
+          <Button
+            type="primary"
+            block
+            onClick={() => addToCart(e.id)}
+          >
+            + Add to cart
+          </Button>
+          <Button
+            type="dashed"
+            block
+            onClick={() => addToWish(e.id)}
+          >
+            + Add to wish
+          </Button>
+        </Space>
+      </div>
+    </div>
+  ))}
 
       </div>
 
@@ -206,12 +251,19 @@ const Home = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-[20px] px-4 lg:px-20 mt-[20px] justify-items-center">
-        
-        <div className="num1">
+          {categories.map((e) => (
+              <div className="flex justify-evenly items-center flex-wrap gap-[20px]">
+                <Link to={`/sale/${e.id}`}>
+              <div className="num1">
           <div className="bg-[#F5F5F5] rounded-[4px] p-[40px] w-[270px] sm:w-[300px]">
             <div className="flex items-start justify-between ">
               <button className='bg-[#DB4444] ml-[-20px] mt-[-20px] text-white w-[55px] h-[26px] rounded-[4px]'>-40%</button>
-              <img src={img7} width={'172px'} height={'152px'} alt="" />
+              <img
+                  src={`http://37.27.29.18:8002/images/${e.categoryImage}`}
+                  alt={e.categoryName}
+                  className="w-[300px]"
+                  onError={(e) => (e.target.src = 'https://via.placeholder.com/200?text=No+Image')}
+                />
               <div className="non ml-[20px] mt-[-20px]">
                 <svg className='num11' width="34" height="34" viewBox="0 0 34 34" fill="none">
                   <circle cx="17" cy="17" r="17" fill="white"/>
@@ -226,7 +278,7 @@ const Home = () => {
             </div>
           </div>
           <div className="txt mt-4">
-            <h1 className='font-medium text-[18px]'>HAVIT HV-G92 Gamepad</h1>
+            <h1 className='font-medium text-[18px]'>{e.categoryName}</h1>
             <div className="flex items-center gap-[10px]">
               <p className='text-[#DB4444]'>$120</p>
               <s className='text-[grey]'>$160</s>
@@ -239,7 +291,10 @@ const Home = () => {
             </div>
           </div>
         </div>
+                  </Link>
       </div>
+      ))}
+        </div>
       <div className="bg-black text-white w-full mt-[40px] py-12 sm:py-16">
   <div className="w-[90%] max-w-7xl mx-auto">
 

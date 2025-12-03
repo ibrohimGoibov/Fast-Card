@@ -1,91 +1,126 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import iimg from '../../assets/Frame 894.png';
 import img55 from '../../assets/g92-2-500x500 1.png';
 
 const Sale = () => {
+  const { id } = useParams();
+  const [data, setData] = useState(null); 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getById() {
+      try {
+        const res = await axios.get(
+          `http://37.27.29.18:8002/Category/get-category-by-id?id=${id}`
+        );
+        setData(res.data.data); 
+      } catch (error) {
+        console.error("Ошибка:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (id) getById();
+  }, [id]);
+  
+  if (loading) {
+    return <div className="text-center py-20 text-2xl">Загрузка...</div>;
+  }
+
+  if (!data) {
+    return <div className="text-center py-20 text-red-500">LUSER</div>;
+  }
+
   return (
-    <div>
-      <p className='text-[grey] p-[70px]'>
-        Account / Gaming / <span className='text-black'>Product Name</span>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <p className="text-gray-500 text-lg mb-8 pl-16">
+        Account / Gaming / <span className="text-black font-semibold">{data.categoryName}</span>
       </p>
 
-      <div className="flex items-center justify-center gap-[30px]">
-        
+      <div className="flex flex-col lg:flex-row items-start justify-center gap-12">
         <div className="num1">
-          <img src={iimg} alt="Превью" />
+          <img
+            src={`http://37.27.29.18:8002/images/${data.categoryImage}`}
+            alt={data.categoryName}
+            className="w-full max-w-lg rounded-xl shadow-xl"
+          />
         </div>
 
-        <div className="num2">
+        <div className="num2 max-w-lg">
+          <h2 className="text-3xl font-bold mt-6">{data.categoryName}</h2>
 
-          <h2 className='text-[24px] font-[600] mt-6'>
-            Product Name
-          </h2>
-
-          <div className="flex items-center gap-[10px] mt-4">
-            {[...Array(5)].map((_, i) => (
-              <svg key={i} width="15" height="15" viewBox="0 0 15 15" fill="none">
-                <path d="M13.9459 6.83189C15.0166 6.022 14.4439 4.31533 13.1013 4.31533H10.6722C10.0583 4.31533 9.51596 3.91536 9.33463 3.32884L8.61049 0.98653C8.20385 -0.328787 6.34205 -0.328787 5.93541 0.98653L5.21126 3.32884C5.02994 3.91536 4.48764 4.31533 3.87373 4.31533H1.40256C0.064368 4.31533 -0.511132 6.01289 0.551167 6.82669L2.66764 8.44808C3.1318 8.80365 3.32609 9.41024 3.15491 9.96932L2.38591 12.4809C1.98711 13.7834 3.49462 14.8305 4.57596 14.0021L6.42156 12.5882C6.92392 12.2034 7.62198 12.2034 8.12434 12.5882L9.95364 13.9896C11.0365 14.8192 12.5455 13.768 12.1426 12.4648L11.3629 9.94286C11.1889 9.37991 11.3859 8.76824 11.8559 8.41278L13.9459 6.83189Z" fill="#FFAD33"/>
-              </svg>
-            ))}
-            <p className='text-[grey]'>(150 Reviews)</p>
-            <p>|</p>
-            <p className='font-[600] text-[17px] text-[#12CA5B]'>In Stock</p>
+          <div className="flex items-center gap-3 mt-4">
+            <div className="flex text-yellow-500">
+              ★★★★☆
+            </div>
+            <p className="text-gray-500">(150 Reviews)</p>
+            <span>|</span>
+            <p className="font-semibold text-green-600 text-lg">In Stock</p>
           </div>
 
-          <h1 className='mt-[10px] text-[32px] font-[700]'>
-            <span className="text-[#DB4444]">$120</span>
-            <s className="text-gray-500 ml-4">$160</s>
+          <h1 className="mt-6 text-4 text-4xl font-bold text-red-600">
+            $192.00
           </h1>
 
-          <p className='w-[373px] mt-[10px] font-[400] text-[#00000099] text-[14px]'>
-            Описание товара. Здесь будет текст о характеристиках и преимуществах.
+          <p className="mt-6 text-gray-700 text-sm leading-relaxed w-[300px]">
+            PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for easy bubble free install & mess free removal. Pressure sensitive.
           </p>
 
-          <hr className='w-[400px] mt-[20px]' />
+          <hr className="my-8 border-gray-300 w-full" />
 
-          <p className='flex items-end gap-[10px] mt-[20px]'>
-            Colours:{' '}
-            <div
-              className="w-6 h-6 rounded-full border-2 border-gray-300"
-              style={{ backgroundColor: '#E07575' }}
-            />
-          </p>
-
-          <p className='flex mt-[10px] items-center gap-[10px]'>
-            Size: 
-            <svg width="250" height="34" viewBox="0 0 250 34" fill="none">
-              <rect x="0.5" y="0.5" width="41" height="33" rx="4.5" stroke="black" strokeOpacity="0.5"/>
-            </svg>
-          </p>
-
-          <svg className='mt-[20px]' width="399" height="168" viewBox="0 0 399 168" fill="none">
-            <rect x="0.5" y="0.5" width="398" height="167" rx="3.5" stroke="black" strokeOpacity="0.5"/>
-          </svg>
-
-        </div>
-      </div>
-
-      <div className="flex items-center gap-[10px] mt-20">
-        <div className="bg-[#DB4444] rounded-[4px] w-[20px] h-[40px]"></div>
-        <p className='text-[#DB4444] font-[600]'>Related Item</p>
-      </div>
-
-      <div className="num1 mt-8">
-        <div className="bg-[#F5F5F5] rounded-[4px] p-[40px] w-[270px] sm:w-[300px]">
-          <div className="flex items-start justify-between">
-            <button className='bg-[#DB4444] ml-[-20px] mt-[-20px] text-white w-[55px] h-[26px] rounded-[4px]'>-40%</button>
-            <img src={img55} alt="" />
+          <div className="flex items-center gap-4 mt-8">
+            <span>Colours:</span>
+            <div className="w-8 h-8 rounded-full bg-red-500 ring-4 ring-gray-300"></div>
+            <div className="w-8 h-8 rounded-full bg-black"></div>
           </div>
-        </div>
-        <div className="txt mt-4">
-          <h1 className='font-medium text-[18px]'>HAVIT HV-G92 Gamepad</h1>
-          <div className="flex items-center gap-[10px]">
-            <p className='text-[#DB4444]'>$120</p>
-            <s className='text-[grey]'>$160</s>
+
+          <div className="flex items-center gap-4 mt-6">
+            <span>Size:</span>
+            {['XS', 'S', 'M', 'L', 'XL'].map(s => (
+              <button key={s} className="w-12 h-10 border rounded hover:bg-red-500 hover:text-white transition">
+                {s}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-6 mt-10">
+            <div className="flex border rounded-lg overflow-hidden">
+              <button className="px-6 py-3 text-xl hover:bg-gray-100">−</button>
+              <span className="px-8 py-3 text-lg font-bold">1</span>
+              <button className="px-6 py-3 text-xl hover:bg-gray-100">+</button>
+            </div>
+            <button className="bg-red-500 text-white px-12 py-4 rounded-lg text-lg font-medium hover:bg-red-600">
+              Buy Now
+            </button>
+            <button className="border p-4 rounded-lg text-2xl hover:bg-gray-100">♡</button>
           </div>
         </div>
       </div>
 
+      <div className="mt-20">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-5 h-10 bg-red-500 rounded"></div>
+          <p className="text-red-500 font-bold text-xl">Related Item</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="text-center">
+            <div className="relative bg-gray-100 rounded-lg p-8">
+              <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-3 py-1 rounded">-40%</span>
+              <img src={img55} alt="Gamepad" className="mx-auto" />
+            </div>
+            <h3 className="mt-4 font-medium">HAVIT HV-G92 Gamepad</h3>
+            <div className="mt-2">
+              <span className="text-red-500 font-bold">$120</span>
+              <del className="text-gray-500 ml-2">$160</del>
+            </div>
+            <div className="flex justify-center mt-2 text-yellow-500">★★★★☆ <span className="text-gray-500 ml-2">(88)</span></div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

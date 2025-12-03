@@ -20,6 +20,8 @@ export const registerUser = createAsyncThunk(
       return rejectWithValue(message);
     }
   }
+
+  
 );
 
 const authSlice = createSlice({
