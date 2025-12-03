@@ -151,14 +151,12 @@ const Home = () => {
           <Button
             type="primary"
             block
-            onClick={() => addToCart(e.id)}
           >
             + Add to cart
           </Button>
           <Button
             type="dashed"
             block
-            onClick={() => addToWish(e.id)}
           >
             + Add to wish
           </Button>
