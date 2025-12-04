@@ -13,7 +13,7 @@ const Sale = () => {
     async function getById() {
       try {
         const res = await axios.get(
-          `http://37.27.29.18:8002/Category/get-category-by-id?id=${id}`
+          `http://37.27.29.18:8002/Product/get-product-by-id?id=${id}`
         );
         setData(res.data.data); 
       } catch (error) {
@@ -37,20 +37,20 @@ const Sale = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <p className="text-gray-500 text-lg mb-8 pl-16">
-        Account / Gaming / <span className="text-black font-semibold">{data.categoryName}</span>
+        Account / Gaming / <span className="text-black font-semibold">{data.productName}</span>
       </p>
 
       <div className="flex flex-col lg:flex-row items-start justify-center gap-12">
         <div className="num1">
           <img
-            src={`http://37.27.29.18:8002/images/${data.categoryImage}`}
-            alt={data.categoryName}
+            src={`http://37.27.29.18:8002/images/${data.image}`}
+            alt={data.productName}
             className="w-full max-w-lg rounded-xl shadow-xl"
           />
         </div>
 
         <div className="num2 max-w-lg">
-          <h2 className="text-3xl font-bold mt-6">{data.categoryName}</h2>
+          <h2 className="text-3xl font-bold mt-6">{data.productName}</h2>
 
           <div className="flex items-center gap-3 mt-4">
             <div className="flex text-yellow-500">
@@ -62,7 +62,7 @@ const Sale = () => {
           </div>
 
           <h1 className="mt-6 text-4 text-4xl font-bold text-red-600">
-            $192.00
+            ${data.discountPrice}
           </h1>
 
           <p className="mt-6 text-gray-700 text-sm leading-relaxed w-[300px]">

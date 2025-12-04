@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Button } from 'antd';
 
 const Product = () => {
   const [data, setData] = useState([]);
@@ -23,8 +24,29 @@ const Product = () => {
         <span>Home /</span>
         <span className="text-black">Все категории</span>
       </div>
+
+      <div className="container">
+  <Button
+        style={{ maxWidth: "200px", display: "flex", justifySelf: "start", marginTop: '-60px' }}
+        className="logB"
+      >
+        Categories
+      </Button>
+  <div class="hidden-content">
+    {data.map((cat) => (
+      <div>
+        <div className="flex items-center justify-evenly">
+          <div className="">
+        <h3 className="">{cat.categoryName}</h3>
+        <img src={`http://37.27.29.18:8002/images/${cat.categoryImage}`} alt={cat.categoryName} width={'100px'} className="max-h-full max-w-full object-contain" onError={(e) => (e.target.src = 'https://via.placeholder.com/200?text=No+Image')}/>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
       
-      <div className="px-12 pb-12">
+      <div className="px-12 pb-12 mt-[100px]">
         <div className=" grid-cols lg:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8">
           {data.map((cat) => (
             <Link to={`/sale/${cat.id}`}>

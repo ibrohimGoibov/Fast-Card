@@ -20,40 +20,36 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);        
 
-  // Получаем продукты
   async function getProducts() {
     try {
       const { data } = await axios.get('http://37.27.29.18:8002/Product/get-products', {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
-      setProducts(data.data.products || []);
-      console.log("Products:", data.data.products);
+      setProducts(data.data.products);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error(error);
     }
   }
 
-  // Получаем категории
   async function getCategories() {
       try {
         const { data } = await axios.get('http://37.27.29.18:8002/Category/get-categories');
-        setCategories(data.data || []);
-        console.log("Categories:", data.data);
+        setCategories(data.data);
+        console.log(data.data);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error(error);
       }
   }
 
-  // Получаем бренды
   async function getBrands() {
     try {
       const { data } = await axios.get('http://37.27.29.18:8002/Brand/get-brands', {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
-      setBrands(data.data || []);
+      setBrands(data.data);
       console.log("Brands:", data.data);
     } catch (error) {
-      console.error("Error fetching brands:", error);
+      console.error(error);
     }
   }
 
@@ -148,17 +144,19 @@ const Home = () => {
             </>
         </div>
         <Space className="card-actions" orientation="vertical" size={10}>
+          <Link to={`/${e.id}`}>
           <Button
             type="primary"
             block
-          >
-            + Add to cart
+            >
+            info
           </Button>
+            </Link>
           <Button
             type="dashed"
             block
           >
-            + Add to wish
+            Add wish
           </Button>
         </Space>
       </div>
@@ -382,7 +380,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-
       </div>
 
       <section className="bg-black text-white py-12 lg:py-24">

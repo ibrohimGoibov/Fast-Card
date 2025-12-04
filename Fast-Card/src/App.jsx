@@ -11,6 +11,8 @@ import Product from './components/product/product';
 import { Counter } from './feauter/counter/Counter';
 import Sale from './components/product/sale';
 import './App.css';
+import Bye from './components/bye/bye';
+import Sale1 from './components/home/sale1';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -21,6 +23,10 @@ const App = () => {
         {
           index: true,
           element: <Home />,
+        },
+        {
+          path: '/:id',
+          element: <Sale1 />
         },
         {
           path: 'contact',
@@ -54,6 +60,10 @@ const App = () => {
           path: '*',                  
           element: <Error />,
         },
+        {
+          path: 'bye/:id',
+          element: <Bye />
+        }
       ],
     },
   ]);

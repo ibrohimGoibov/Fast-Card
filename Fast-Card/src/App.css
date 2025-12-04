@@ -516,3 +516,31 @@ body {
     margin: auto;
   }
 }
+
+.container {
+  display: inline-block;
+  position: relative;
+  transition: all 1s ease;
+  button{
+    margin-left: 60px;
+  }
+}
+
+.hidden-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  z-index: 10;
+  transition: all 1s ease;
+}
+
+.container:hover .hidden-content {
+  display: flex;
+  justify-content: start;
+  gap: 50px;
+  transition: all 1s ease;
+}
