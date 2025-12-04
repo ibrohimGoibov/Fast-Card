@@ -160,7 +160,7 @@ const Login = () => {
 
         {isLogin && (
           <p className="text-center mt-6 text-gray-600">
-            Don’t have an account?{' '}
+            Don’t have an account{' '}
             <button onClick={() => setIsLogin(false)} className="text-red-500 font-medium hover:underline">
               Sign up
             </button>
