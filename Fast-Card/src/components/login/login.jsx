@@ -90,7 +90,7 @@ const Login = () => {
             onClick={() => setIsLogin(false)}
             className={`px-6 py-2 font-medium transition ${!isLogin ? 'text-red-500 border-b-2 border-red-500' : 'text-gray-500'}`}
           >
-            Sign up
+            Sign ups
           </button>
         </div>
 
